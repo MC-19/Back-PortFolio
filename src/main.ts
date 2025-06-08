@@ -8,10 +8,11 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   app.enableCors({
-    origin: ['https://mario-cristian-dascalu.netlify.app/'], // 👈 cámbialo por el real
-    methods: ['POST', 'GET'],
+    origin: ['https://mario-cristian-dascalu.netlify.app'],
+    methods: ['POST', 'GET', 'OPTIONS'], // Asegúrate de incluir OPTIONS
+    allowedHeaders: ['Content-Type'],
   });
 
-  await app.listen(process.env.PORT || 3000); // para Render
+  await app.listen(process.env.PORT || 3000);
 }
 bootstrap();
