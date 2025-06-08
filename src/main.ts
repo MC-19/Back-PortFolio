@@ -1,13 +1,17 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import * as cors from 'cors';
-import { ValidationPipe } from '@nestjs/common'
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  
-  app.useGlobalPipes(new ValidationPipe())
-  app.use(cors()); // permitir peticiones desde tu frontend
-  await app.listen(3000);
+
+  app.useGlobalPipes(new ValidationPipe());
+
+  app.enableCors({
+    origin: ['https://mario-cristian-dascalu.netlify.app/'], // 👈 cámbialo por el real
+    methods: ['POST', 'GET'],
+  });
+
+  await app.listen(process.env.PORT || 3000); // para Render
 }
 bootstrap();
