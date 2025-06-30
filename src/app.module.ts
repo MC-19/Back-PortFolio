@@ -4,6 +4,7 @@ import { MailModule } from './mail/mail.module';
 import { ContactController } from './contact/contact.controller';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { PingController } from './ping.controller';
 
 @Module({
   imports: [
@@ -12,7 +13,7 @@ import { AppService } from './app.service';
     }),
     MailModule,
   ],
-  controllers: [ContactController, AppController],
+  controllers: [ContactController, AppController, PingController ],
   providers: [AppService],
 })
 export class AppModule {}
