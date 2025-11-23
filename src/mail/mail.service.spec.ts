@@ -17,7 +17,7 @@ export class MailService {
 
   async sendMail(options: { to: string; subject: string; html: string }) {
     const from =
-      process.env.EMAIL_FROM ?? `"dascalumariocristian@gmail.com"`;
+    process.env.EMAIL_FROM ?? `"MC Portfolio" <onboarding@resend.dev>`;
 
     const result = await this.resend.emails.send({
       from,
