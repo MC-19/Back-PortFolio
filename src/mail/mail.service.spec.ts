@@ -1,36 +1,25 @@
-// src/mail/mail.service.ts
-import { Injectable } from '@nestjs/common';
-import { Resend } from 'resend';
+// src/mail/mail.service.spec.ts
+import { Test, TestingModule } from '@nestjs/testing';
+import { MailService } from './mail.service';
 
-@Injectable()
-export class MailService {
-  private resend: Resend;
+describe('MailService', () => {
+  let service: MailService;
 
-  constructor() {
-    if (!process.env.RESEND_API_KEY) {
-      console.error('FALTA RESEND_API_KEY en las variables de entorno');
-      throw new Error('RESEND_API_KEY is not set');
-    }
+  beforeAll(() => {
+    // Simulamos las env vars necesarias para que el constructor no reviente
+    process.env.RESEND_API_KEY = 'test_resend_key';
+    process.env.EMAIL_FROM = '"MC Portfolio" <onboarding@resend.dev>';
+  });
 
-    this.resend = new Resend(process.env.RESEND_API_KEY);
-  }
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [MailService],
+    }).compile();
 
-  async sendMail(options: { to: string; subject: string; html: string }) {
-    const from =
-    process.env.EMAIL_FROM ?? `"MC Portfolio" <onboarding@resend.dev>`;
+    service = module.get<MailService>(MailService);
+  });
 
-    const result = await this.resend.emails.send({
-      from,
-      to: options.to,
-      subject: options.subject,
-      html: options.html,
-    });
-
-    if (result.error) {
-      console.error('Error enviando email con Resend:', result.error);
-      throw new Error(result.error.message);
-    }
-
-    return result;
-  }
-}
+  it('should be defined', () => {
+    expect(service).toBeDefined();
+  });
+});
